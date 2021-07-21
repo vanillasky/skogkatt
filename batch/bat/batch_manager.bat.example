@@ -1,0 +1,6 @@
+@Echo off
+@Echo Batch Manager Start
+call "C:\Anaconda3\Scripts\activate.bat" py39_32
+set PYTHONPATH=C:\Users\shkim\code\projects\skogkatt
+cd C:\Users\shkim\code\projects\skogkatt\skogkatt
+start python "%~dp0batch_manager.py"

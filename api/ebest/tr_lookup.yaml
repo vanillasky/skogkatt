@@ -1,0 +1,22 @@
+version: 0.1
+
+res_path: C:/eBEST/xingAPI/Res
+
+transactions:
+  주식잔고2:
+    tr_code: t0424
+    server_params: [accno, passwd, prcgb, chegb, dangb, charge, cts_expcode]
+    params: [account_no, password, price_type, sign_type, out_of_hour, include_cost, cts_code]
+    in_block: InBlock
+
+  조건검색:
+    tr_code: t1857
+    server_params: [sRealFlag, sSearchFlag, query_index]
+    params: [real_flag, search_flag, query_index]
+    in_block: InBlock
+
+  기간별주가:
+    tr_code: t1305
+    server_params: [shcode, dwmcode, date, idx, cnt]
+    params: [stock_code, period_type, date, idx, cnt]
+    in_block: InBlock

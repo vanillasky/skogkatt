@@ -1,0 +1,98 @@
+version: 1.0
+disable_existing_loggers: false
+objects:
+  queue:
+    class: queue.Queue
+    maxsize: 1000
+
+formatters:
+  basic:
+    format: "%(asctime)s - %(levelname)-8s - %(filename)s:%(lineno)s - %(funcName)s - %(message)s"
+  mongo_formatter:
+    class: skogkatt.commons.log.handlers.MongoLogFormatter
+  maria_formatter:
+    class: skogkatt.commons.log.handlers.MariaLogFormatter
+  log_decorator:
+    class: skogkatt.commons.log.handlers.DecoratorFormatter
+    format: "%(asctime)s - %(levelname)-8s - %(filename)s:%(lineno)s - %(funcName)s - %(message)s"
+
+handlers:
+  console:
+    class: logging.StreamHandler
+    level: DEBUG
+    formatter: basic
+    stream: ext://sys.stdout
+
+  tr_file:
+    class: logging.handlers.TimedRotatingFileHandler
+    level: DEBUG
+    formatter: basic
+    filename: "{path}/skogkatt.log"
+    delay: True
+    backupCount: 10
+    encoding: utf8
+    when: midnight
+    interval: 1
+
+  error_file:
+    class: logging.handlers.TimedRotatingFileHandler
+    level: WARNING
+    formatter: basic
+    filename: "{path}/error.log"
+    delay: True
+    backupCount: 10
+    encoding: utf8
+    when: midnight
+    interval: 1
+
+  batch_file:
+    class: logging.handlers.TimedRotatingFileHandler
+    level: DEBUG
+    formatter: log_decorator
+    filename: "{path}/batch.log"
+    delay: True
+    backupCount: 10
+    encoding: utf8
+    when: midnight
+    interval: 1
+
+  mongodb:
+    class: skogkatt.commons.log.handlers.MongoLogHandler
+    db: "skogkatt_unit_test"
+    collection: 'log'
+    host: "{host_mongodb}"
+    level: WARNING
+    formatter: mongo_formatter
+
+  mariadb:
+    class: skogkatt.commons.log.handlers.MariaLogHandler
+    db: "skogkatt_unit_test"
+    table: 'log'
+    host: "{host_mariadb}"
+    level: WARNING
+    formatter: maria_formatter
+
+  queue_listener:
+    class: skogkatt.commons.log.handlers.QueueListenerHandler
+    handlers:
+      - cfg://handlers.console
+      - cfg://handlers.tr_file
+      - cfg://handlers.mongodb
+      - cfg://handlers.mariadb
+    queue: cfg://objects.queue
+
+loggers:
+
+  batch:
+    level: DEBUG
+    handlers: [console, batch_file]
+    propagate: no
+
+  queue_log_test:
+    level: DEBUG
+    handlers: [console, tr_file, mongodb, mariadb]
+    propagate: no
+
+root:
+  level: DEBUG
+  handlers: [console, error_file, tr_file, mongodb, mariadb]

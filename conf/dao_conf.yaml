@@ -1,0 +1,39 @@
+version: 1.0
+
+dao_list:
+  TickerDAO:
+    class: skogkatt.core.dao.mongo.ticker.MongoTickerDAO
+    db_name: None
+    table: ticker
+  BatchStatusDAO:
+    class: skogkatt.core.dao.mongo.batch.MongoBatchStatusDAO
+    db_name: None
+    table: batch_status
+  BatchQueueDAO:
+    class: skogkatt.core.dao.mongo.batch.MongoBatchQueueDAO
+    db_name: None
+    table: batch_queue
+  StockSummaryDAO:
+    class: skogkatt.core.dao.mongo.financial.MongoStockSummaryDAO
+    db_name: skogkatt_fn_statement
+    table: stock_summary
+  FnStatementDAO:
+    class: skogkatt.core.dao.mongo.financial.MongoFnStatementDAO
+    db_name: skogkatt_fn_statement
+    table: statement
+  FnStatementAbbrDAO:
+    class: skogkatt.core.dao.mongo.financial.MongoFnStatementAbbrDAO
+    db_name: skogkatt_fn_statement
+    table: abbreviation
+  RIMPriceEstimateDAO:
+    class: skogkatt.core.dao.mongo.rim.MongoRIMPriceEstimateDAO
+    db_name: None
+    table: rim_price
+  DailyChartDAO:
+    class: skogkatt.core.dao.mongo.chart.MongoDailyChartDAO
+    db_name: daily_chart_test
+    table: None
+  FormulaScreenerDAO:
+    class: skogkatt.core.dao.mongo.screener.MongoFormulaScreenerDAO
+    db_name: None
+    table: screen_report

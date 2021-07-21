@@ -1,0 +1,16 @@
+version: 1.0
+
+dao_list:
+  TickerDAO:
+    class: skogkatt.core.dao.maria.ticker.MariaTickerDAO
+    db_name: None
+    table: ticker
+  BatchStatusDAO:
+    class: skogkatt.core.dao.maria.batch.MariaBatchStatusDAO
+    db_name: None
+    table: batch_status
+  BatchQueueDAO:
+    class: skogkatt.core.dao.maria.batch.MariaBatchQueueDAO
+    db_name: None
+    table: batch_queue
+

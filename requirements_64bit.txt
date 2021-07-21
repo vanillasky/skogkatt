@@ -1,0 +1,17 @@
+python-telegram-bot
+python-dotenv
+fake_useragent
+pyyaml
+pymongo
+python-dotenv
+pandas
+requests
+appdirs
+tabulate
+lxml
+tabulate
+beautifulsoup4
+html5lib
+PyQt5
+stem
+psutil

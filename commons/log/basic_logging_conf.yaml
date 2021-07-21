@@ -1,0 +1,81 @@
+version: 1.0
+disable_existing_loggers: false
+objects:
+  queue:
+    class: queue.Queue
+    maxsize: 1000
+
+formatters:
+  basic:
+    format: "%(asctime)s - %(levelname)-8s - %(filename)s:%(lineno)s - %(funcName)s - %(message)s"
+  mongo_formatter:
+    class: skogkatt.commons.log.handlers.MongoLogFormatter
+  maria_formatter:
+    class: skogkatt.commons.log.handlers.MariaLogFormatter
+  log_decorator:
+    class: skogkatt.commons.log.handlers.DecoratorFormatter
+    format: "%(asctime)s - %(levelname)-8s - %(filename)s:%(lineno)s - %(funcName)s - %(message)s"
+
+handlers:
+  console:
+    class: logging.StreamHandler
+    level: DEBUG
+    formatter: basic
+    stream: ext://sys.stdout
+
+  tr_file:
+    class: logging.handlers.TimedRotatingFileHandler
+    level: DEBUG
+    formatter: basic
+    filename: "{path}/debug.log"
+    delay: True
+    backupCount: 10
+    encoding: utf8
+    when: midnight
+    interval: 1
+
+  error_file:
+    class: logging.handlers.TimedRotatingFileHandler
+    level: WARNING
+    formatter: basic
+    filename: "{path}/error.log"
+    delay: True
+    backupCount: 10
+    encoding: utf8
+    when: midnight
+    interval: 1
+
+  batch_file:
+    class: logging.handlers.TimedRotatingFileHandler
+    level: DEBUG
+    formatter: log_decorator
+    filename: "{path}/batch.log"
+    delay: True
+    backupCount: 10
+    encoding: utf8
+    when: midnight
+    interval: 1
+
+  queue_listener:
+    class: skogkatt.commons.log.handlers.QueueListenerHandler
+    handlers:
+      - cfg://handlers.console
+      - cfg://handlers.tr_file
+
+    queue: cfg://objects.queue
+
+loggers:
+
+  batch:
+    level: DEBUG
+    handlers: [console, batch_file]
+    propagate: no
+
+  queue_log_test:
+    level: DEBUG
+    handlers: [console, tr_file]
+    propagate: no
+
+root:
+  level: DEBUG
+  handlers: [console, error_file, tr_file]
