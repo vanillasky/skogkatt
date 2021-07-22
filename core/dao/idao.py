@@ -222,3 +222,20 @@ class FormulaScreenerDAO(AbstractDAO):
 
     def find(self, *args, **kwargs):
         pass
+
+
+class FailedTickerDAO(AbstractDAO):
+    def update(self, *args, **kwargs):
+        pass
+
+    def insert(self, *args, **kwargs):
+        pass
+
+    def delete(self, *args, **kwargs):
+        pass
+
+    def count(self, *args, **kwargs):
+        pass
+
+    def find(self, *args, **kwargs):
+        pass

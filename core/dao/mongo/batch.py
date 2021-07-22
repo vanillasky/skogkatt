@@ -5,7 +5,7 @@ from pandas import DataFrame
 
 from skogkatt.batch import BatchStatus
 from skogkatt.core.dao.engine import MongoEngine
-from skogkatt.core.dao.idao import BatchStatusDAO, BatchQueueDAO
+from skogkatt.core.dao.idao import BatchStatusDAO, BatchQueueDAO, FailedTickerDAO
 
 
 class MongoBatchStatusDAO(BatchStatusDAO):
@@ -91,3 +91,47 @@ class MongoBatchQueueDAO(BatchQueueDAO):
 
     def count(self, batch_name: str):
         return self._table.count_documents({'batch_name': batch_name})
+
+
+class MongoFailedTickerDAO(FailedTickerDAO):
+    def __init__(self, db_name=None, table='failed_ticker'):
+        super().__init__()
+        self._engine = MongoEngine(db_name)
+        self._table = self._engine.get_db()[table]
+        self._table_name = self._table.name
+        self.conn = self._engine.get_connection()
+
+    def insert(self, failed_code):
+        result = self._table.insert_one(failed_code)
+        return 1 if result.inserted_id is not None else 0
+
+    def delete(self, job_name: str = None, stock_code: str = None):
+        query = {}
+
+        if job_name is not None:
+            query['job_name'] = job_name
+
+        if stock_code is not None:
+            query['stock_code'] = stock_code
+
+        result = self._table.delete_many(query)
+        return result.deleted_count
+
+    def find(self, job_name: str = None, stock_code: str = None):
+        query = {}
+        if stock_code is not None:
+            query['stock_code'] = stock_code
+
+        if job_name is not None:
+            query['job_name'] = job_name
+
+        return list(self._table.find(query))
+
+    def update(self, failed_codes):
+        query = {'job_name': failed_codes[0].get('job_name')}
+
+        with self.conn.start_session() as session:
+            with session.start_transaction():
+                self._table.delete_many(query)
+                self._table.insert_many(failed_codes)
+        return len(failed_codes)

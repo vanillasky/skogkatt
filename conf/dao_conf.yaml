@@ -37,3 +37,7 @@ dao_list:
     class: skogkatt.core.dao.mongo.screener.MongoFormulaScreenerDAO
     db_name: None
     table: screen_report
+  FailedTickerDAO:
+    class: skogkatt.core.dao.mongo.batch.MongoFailedTickerDAO
+    db_name: None
+    table: failed_ticker
