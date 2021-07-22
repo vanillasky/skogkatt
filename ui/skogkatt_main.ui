@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>800</width>
+    <height>600</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Skogkatt v0.5</string>
+  </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>icons/cat_icon_64px.png</normaloff>icons/cat_icon_64px.png</iconset>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QGridLayout" name="gridLayout">
+    <item row="0" column="0">
+     <widget class="QMdiArea" name="mdi_area">
+      <widget class="QWidget" name="subwindow">
+       <property name="windowTitle">
+        <string>하위 창</string>
+       </property>
+       <widget class="QPushButton" name="pushButton">
+        <property name="geometry">
+         <rect>
+          <x>50</x>
+          <y>150</y>
+          <width>75</width>
+          <height>23</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>PushButton</string>
+        </property>
+       </widget>
+      </widget>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>800</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuS_RIM">
+    <property name="title">
+     <string>S-RIM</string>
+    </property>
+    <addaction name="actionS_RIM_Wizard"/>
+   </widget>
+   <widget class="QMenu" name="menuFile">
+    <property name="minimumSize">
+     <size>
+      <width>0</width>
+      <height>0</height>
+     </size>
+    </property>
+    <property name="baseSize">
+     <size>
+      <width>0</width>
+      <height>0</height>
+     </size>
+    </property>
+    <property name="styleSheet">
+     <string notr="true"/>
+    </property>
+    <property name="title">
+     <string>File</string>
+    </property>
+    <addaction name="action_open"/>
+   </widget>
+   <widget class="QMenu" name="menu">
+    <property name="title">
+     <string>종목검색</string>
+    </property>
+    <addaction name="action_screener"/>
+   </widget>
+   <addaction name="menuFile"/>
+   <addaction name="menuS_RIM"/>
+   <addaction name="menu"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <widget class="QToolBar" name="toolBar">
+   <property name="windowTitle">
+    <string>toolBar</string>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>30</width>
+     <height>30</height>
+    </size>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="actionS_RIM_Wizard"/>
+   <addaction name="action_open"/>
+   <addaction name="action_batch_status"/>
+  </widget>
+  <widget class="QDockWidget" name="dock_widget">
+   <attribute name="dockWidgetArea">
+    <number>8</number>
+   </attribute>
+   <widget class="QWidget" name="dockWidgetContents"/>
+  </widget>
+  <action name="actionS_RIM_Wizard">
+   <property name="icon">
+    <iconset resource="res.qrc">
+     <normaloff>:/icon/icons/iconfinder_bar_chart_2208352.png</normaloff>:/icon/icons/iconfinder_bar_chart_2208352.png</iconset>
+   </property>
+   <property name="text">
+    <string>S-RIM Wizard</string>
+   </property>
+  </action>
+  <action name="action_open">
+   <property name="icon">
+    <iconset>
+     <normalon>:/icon/icons/folder_storage_icon_64px.png</normalon>
+    </iconset>
+   </property>
+   <property name="text">
+    <string>Open</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+O</string>
+   </property>
+  </action>
+  <action name="action_batch_status">
+   <property name="icon">
+    <iconset resource="res.qrc">
+     <normaloff>:/icon/icons/board_icon_64px.png</normaloff>:/icon/icons/board_icon_64px.png</iconset>
+   </property>
+   <property name="text">
+    <string>batch status</string>
+   </property>
+   <property name="toolTip">
+    <string>Job Status</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+B</string>
+   </property>
+  </action>
+  <action name="action_screener">
+   <property name="text">
+    <string>종목검색</string>
+   </property>
+  </action>
+ </widget>
+ <resources>
+  <include location="res.qrc"/>
+ </resources>
+ <connections/>
+</ui>

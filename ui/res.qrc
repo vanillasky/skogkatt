@@ -1,0 +1,8 @@
+<RCC>
+  <qresource prefix="icon">
+    <file>icons/board_icon_64px.png</file>
+    <file>icons/file_format_log_type.png</file>
+    <file>icons/folder_storage_icon_64px.png</file>
+    <file>icons/iconfinder_bar_chart_2208352.png</file>
+  </qresource>
+</RCC>
