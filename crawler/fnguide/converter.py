@@ -51,8 +51,10 @@ def convert_snapshot(queue: Queue = None):
             statement_dao.update(dto.annual_abbreviations)
             statement_dao.update(dto.quarter_abbreviations)
 
-            queue_factory.remove_queue_item(job_name, stock_code)
             processed_codes.append(stock_code)
+            elapsed = datetime.now() - start
+            logger.debug(f'..Snapshot converted - {stock_code}, elapsed:{elapsed}')
+
         except FileNotFoundError as err:
             logger.error(str(err))
             failed_codes.append({'date': start, 'job_name': job_name, 'stock_code': stock_code, 'cause': 'FileNotFound'})
@@ -60,10 +62,9 @@ def convert_snapshot(queue: Queue = None):
             logger.error(str(err))
             failed_codes.append({'date': start, 'job_name': job_name, 'stock_code': stock_code, 'cause': str(err)})
 
-        elapsed = datetime.now() - start
-        logger.debug(f'..Snapshot converted - {stock_code}, elapsed:{elapsed}')
+        queue_factory.remove_queue_item(job_name, stock_code)
 
-    if not queue.empty():
+    if len(failed_codes) > 0:
         logger.info(f'There are unresolved financial snapshots: {queue.qsize()}, check error.log')
         save_failed_ticker(failed_codes)
         queue_factory.remove_batch_queue(job_name)
@@ -101,9 +102,10 @@ def convert_statement(queue: Queue = None):
             dto = parser.parse(stock_code)
             statement_dao.update(dto.annual_statements)
             statement_dao.update(dto.quarter_statements)
-
-            queue_factory.remove_queue_item(job_name, stock_code)
             processed_codes.append(stock_code)
+
+            elapsed = datetime.now() - start
+            logger.debug(f'..Statement converted - {stock_code}, elapsed:{elapsed}')
         except FileNotFoundError as err:
             logger.error(str(err))
             failed_codes.append(
@@ -112,10 +114,9 @@ def convert_statement(queue: Queue = None):
             logger.error(str(err))
             failed_codes.append({'date': start, 'job_name': job_name, 'stock_code': stock_code, 'cause': str(err)})
 
-        elapsed = datetime.now() - start
-        logger.debug(f'..Statement converted - {stock_code}, elapsed:{elapsed}')
+        queue_factory.remove_queue_item(job_name, stock_code)
 
-    if not queue.empty():
+    if len(failed_codes) > 0:
         logger.info(f'There are unresolved financial statements: {queue.qsize()}, check error.log')
         save_failed_ticker(failed_codes)
         queue_factory.remove_batch_queue(job_name)

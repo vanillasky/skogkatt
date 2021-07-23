@@ -240,22 +240,3 @@ class MongoFnStatementAbbrDAO(MongoFnStatementDAO):
 
         return statement_list
 
-# class UnresolvedTickerDao(BaseDao):
-#
-#     def __init__(self):
-#         super().__init__()
-#         self.collection = self.db['unresolved_ticker']
-#
-#     def update(self, tickers: List[dict], proc_name: str):
-#         with self.engine.start_session() as session:
-#             with session.start_transaction():
-#                 self.collection.delete_many({'proc': proc_name})
-#                 self.collection.insert_many(tickers)
-#
-#     def find(self, as_dataframe: bool = False):
-#         records = list(self.collection.find({}, {'_id': 0}))
-#         if as_dataframe:
-#             return DataFrame(records)
-#
-#         return records
-
